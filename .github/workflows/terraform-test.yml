@@ -58,7 +58,7 @@ jobs:
         working-directory: ./test
         run: |
           go mod tidy
-          go get -t github.com/sys-admn/terraform-vpc-project
+          go get -t github.com/sys-admn/vpc-project
           go mod download
 
       - name: Run Terraform validation tests
