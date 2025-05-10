@@ -64,7 +64,8 @@ func TestInstanceModule(t *testing.T) {
 
 	// Verify instance properties
 	for _, instanceID := range instanceIDs {
-		instance := aws.GetEc2InstanceById(t, instanceID, awsRegion)
+		instance, err := aws.GetEc2InstanceByIdE(t, instanceID, awsRegion)
+		assert.NoError(t, err)
 		
 		// Check instance type
 		assert.Equal(t, instanceType, instance.InstanceType, "Instance type should match")

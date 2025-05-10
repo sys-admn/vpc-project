@@ -67,7 +67,8 @@ func TestSecurityGroupModule(t *testing.T) {
 	assert.NotEmpty(t, securityGroupID, "Security Group ID should not be empty")
 	
 	// Get the security group details
-	securityGroup := aws.GetSecurityGroupById(t, awsRegion, securityGroupID)
+	securityGroup, err := aws.GetSecurityGroupByIdE(t, securityGroupID, awsRegion)
+	assert.NoError(t, err)
 	
 	// Verify security group rules
 	// Check ingress rules
