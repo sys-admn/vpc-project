@@ -1,4 +1,4 @@
-module github.com/sys-admn/terraform-vpc-project
+module github.com/sys-admn/vpc-project
 
 go 1.21
 
