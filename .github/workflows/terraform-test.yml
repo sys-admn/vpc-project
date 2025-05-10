@@ -54,12 +54,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
 
-      - name: Initialize Go modules
+      - name: Download Go modules
         working-directory: ./test
-        run: |
-          go mod tidy
-          go get -t github.com/sys-admn/vpc-project
-          go mod download
+        run: go mod download
 
       - name: Run Terraform validation tests
         working-directory: ./test
