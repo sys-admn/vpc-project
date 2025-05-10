@@ -19,7 +19,7 @@ The project is organized into reusable modules:
 ## Usage
 
 1. Clone the repository
-2. Update the variables in `terraform.tfvars` (create this file) or use environment variables
+2. Update the variables in `terraform.tfvars` or use environment variables
 3. Initialize Terraform:
 
 ```bash
@@ -78,3 +78,7 @@ To destroy all resources created by this project:
 ```bash
 terraform destroy
 ```
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

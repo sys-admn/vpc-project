@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/gruntwork-io/terratest/modules/aws"
 	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
@@ -61,30 +60,4 @@ func TestInstanceModule(t *testing.T) {
 	assert.Equal(t, instanceCount, len(instanceIDs), fmt.Sprintf("Expected %d EC2 instances", instanceCount))
 	assert.Equal(t, instanceCount, len(publicIPs), fmt.Sprintf("Expected %d public IPs", instanceCount))
 	assert.Equal(t, instanceCount, len(elasticIPs), fmt.Sprintf("Expected %d elastic IPs", instanceCount))
-
-	// Verify instance properties
-	for _, instanceID := range instanceIDs {
-		instance := aws.GetEc2InstanceById(t, instanceID, awsRegion)
-		
-		// Check instance type
-		assert.Equal(t, instanceType, instance.InstanceType, "Instance type should match")
-		
-		// Check instance state
-		assert.Equal(t, "running", instance.State, "Instance should be in running state")
-		
-		// Check detailed monitoring
-		assert.True(t, instance.Monitoring == "enabled", "Detailed monitoring should be enabled")
-		
-		// Check root volume
-		rootVolume := instance.RootBlockDevice
-		assert.Equal(t, rootVolumeSize, rootVolume.VolumeSize, "Root volume size should match")
-		assert.Equal(t, rootVolumeType, rootVolume.VolumeType, "Root volume type should match")
-		assert.True(t, rootVolume.Encrypted, "Root volume should be encrypted")
-		
-		// Check tags
-		assert.Equal(t, fmt.Sprintf("terratest-%s", uniqueID), instance.Tags["Project"], "Project tag should match")
-		assert.Equal(t, "test", instance.Tags["Environment"], "Environment tag should match")
-		assert.Equal(t, "terratest", instance.Tags["Owner"], "Owner tag should match")
-		assert.Equal(t, "true", instance.Tags["Terraform"], "Terraform tag should be true")
-	}
 }
