@@ -32,7 +32,7 @@ resource "aws_subnet" "vpc_subnet" {
 
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.web_vpc.id
-  
+
   tags = merge(
     {
       Name        = "${var.random_pet_id}-igw"
@@ -45,7 +45,7 @@ resource "aws_internet_gateway" "igw" {
 
 resource "aws_route_table" "my_route_table" {
   vpc_id = aws_vpc.web_vpc.id
-  
+
   tags = merge(
     {
       Name        = "${var.random_pet_id}-rt"

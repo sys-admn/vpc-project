@@ -24,7 +24,7 @@ locals {
 
 provider "aws" {
   region = var.aws_region
-  
+
   default_tags {
     tags = local.common_tags
   }
@@ -45,20 +45,20 @@ module "vpc" {
     availability_zone      = var.vpc_configuration["availability_zone"]
     destination_cidr_block = var.vpc_configuration["destination_cidr_block"]
   }
-  random_pet_id  = random_pet.name.id
-  environment    = var.environment
+  random_pet_id   = random_pet.name.id
+  environment     = var.environment
   additional_tags = local.common_tags
-  map_public_ip  = var.map_public_ip_on_launch
+  map_public_ip   = var.map_public_ip_on_launch
 }
 
 module "security_group" {
-  source         = "./modules/security_group"
-  vpc_id         = module.vpc.vpc_id
-  sg_name_prefix = local.sg_name_prefix
-  random_pet_id  = random_pet.name.id
-  environment    = var.environment
+  source          = "./modules/security_group"
+  vpc_id          = module.vpc.vpc_id
+  sg_name_prefix  = local.sg_name_prefix
+  random_pet_id   = random_pet.name.id
+  environment     = var.environment
   additional_tags = local.common_tags
-  ingress_rules  = var.security_group_ingress_rules
+  ingress_rules   = var.security_group_ingress_rules
 }
 
 module "instance" {
@@ -72,7 +72,7 @@ module "instance" {
   random_pet_id     = random_pet.name.id
   environment       = var.environment
   additional_tags   = local.common_tags
-  
+
   # Enhanced instance configuration
   associate_public_ip = var.map_public_ip_on_launch
   enable_monitoring   = var.enable_detailed_monitoring
@@ -80,7 +80,7 @@ module "instance" {
   root_volume_type    = var.root_volume_type
   public_key_path     = var.public_key_path
   public_key_content  = var.public_key_content
-  
+
   # Dependency for EIP
   internet_gateway_dependency = module.vpc.internet_gateway_id
 }

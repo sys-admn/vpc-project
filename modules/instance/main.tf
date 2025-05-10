@@ -23,11 +23,11 @@ resource "aws_instance" "web" {
     },
     var.additional_tags
   )
-  
+
   lifecycle {
     create_before_destroy = true
   }
-  
+
   depends_on = [aws_key_pair.instance_key]
 }
 
@@ -36,7 +36,7 @@ resource "aws_eip" "my_eip" {
   instance   = aws_instance.web[count.index].id
   domain     = "vpc"
   depends_on = [var.internet_gateway_dependency]
-  
+
   tags = merge(
     {
       Name        = "${var.random_pet_id}-eip-${count.index + 1}"
@@ -50,7 +50,7 @@ resource "aws_eip" "my_eip" {
 resource "aws_key_pair" "instance_key" {
   key_name   = var.key_name
   public_key = var.public_key_content != "" ? var.public_key_content : file(var.public_key_path)
-  
+
   tags = merge(
     {
       Name        = "${var.random_pet_id}-key"
