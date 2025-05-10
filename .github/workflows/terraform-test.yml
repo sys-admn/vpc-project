@@ -60,20 +60,29 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
 
-      - name: Create fresh Go modules
+      - name: Run simple test
         working-directory: ./test
         run: |
-          # Remove existing go.sum
-          rm -f go.sum
-          
-          # Initialize and download dependencies
-          go mod tidy
-          
-          # Run the simple test
+          # Run a simple test that doesn't require external dependencies
           go test -v -run TestSimple
 
-      # Uncomment when ready to run more complex tests
-      # - name: Run Terraform validation tests
+      - name: Run Terraform validation tests
+        working-directory: ./test
+        run: |
+          go test -v -timeout 10m -run TestTerraformValidation
+
+      # Uncomment when ready to run infrastructure tests (costs money)
+      # - name: Run VPC tests
       #   working-directory: ./test
       #   run: |
-      #     go test -v -timeout 10m -run TestTerraformValidation
+      #     go test -v -timeout 15m -run TestVpcModule
+      # 
+      # - name: Run Security Group tests
+      #   working-directory: ./test
+      #   run: |
+      #     go test -v -timeout 15m -run TestSecurityGroupModule
+      # 
+      # - name: Run Instance tests
+      #   working-directory: ./test
+      #   run: |
+      #     go test -v -timeout 15m -run TestInstanceModule
